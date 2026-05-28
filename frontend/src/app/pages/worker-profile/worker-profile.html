@@ -1,0 +1,92 @@
+<div class="page">
+  <header>
+    <div>
+      <h1>Perfil profesional</h1>
+      <p>Configura tu información para que los clientes puedan contratarte.</p>
+    </div>
+
+    <a routerLink="/dashboard">Volver al dashboard</a>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Información del trabajador</h2>
+
+      <form (ngSubmit)="saveProfile()">
+        <label>Profesión</label>
+        <select name="profession" [(ngModel)]="profession">
+          <option value="programmer">Programador</option>
+          <option value="architect">Arquitecto</option>
+          <option value="graphic_designer">Diseñador gráfico</option>
+          <option value="lawyer">Abogado</option>
+        </select>
+
+        <label>Título profesional</label>
+        <input
+          type="text"
+          name="title"
+          [(ngModel)]="title"
+          placeholder="Ej. Desarrollador web full stack"
+        />
+
+        <label>Descripción</label>
+        <textarea
+          name="description"
+          [(ngModel)]="description"
+          rows="5"
+          placeholder="Describe tus servicios, experiencia y forma de trabajo"
+        ></textarea>
+
+        <label>Habilidades</label>
+        <input
+          type="text"
+          name="skillsText"
+          [(ngModel)]="skillsText"
+          placeholder="Angular, Firebase, Solidity, UI/UX"
+        />
+
+        <label>Portafolio o enlace de referencia</label>
+        <input
+          type="text"
+          name="portfolioUrl"
+          [(ngModel)]="portfolioUrl"
+          placeholder="https://..."
+        />
+
+        <label>Precio base estimado</label>
+        <input
+          type="number"
+          name="basePrice"
+          [(ngModel)]="basePrice"
+          min="0"
+          placeholder="Ej. 1500"
+        />
+
+        <label class="checkbox">
+          <input
+            type="checkbox"
+            name="available"
+            [(ngModel)]="available"
+          />
+          Disponible para recibir solicitudes
+        </label>
+
+        @if (successMessage) {
+          <div class="success">
+            {{ successMessage }}
+          </div>
+        }
+
+        @if (errorMessage) {
+          <div class="error">
+            {{ errorMessage }}
+          </div>
+        }
+
+        <button type="submit" [disabled]="loading">
+          {{ loading ? 'Guardando...' : 'Guardar perfil' }}
+        </button>
+      </form>
+    </section>
+  </main>
+</div>

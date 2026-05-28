@@ -1,0 +1,86 @@
+<div class="dashboard">
+  <header>
+    <div>
+      <h1>WorkChain</h1>
+      <p>Panel principal de la plataforma freelance con escrow blockchain.</p>
+    </div>
+
+    <button (click)="logout()">Cerrar sesión</button>
+  </header>
+
+  <main>
+    <section class="welcome-card">
+      @if (currentUser$ | async; as user) {
+        <h2>Bienvenido</h2>
+        <p>
+          Sesión iniciada como:
+          <strong>{{ user.email || 'Sin correo' }}</strong>
+        </p>
+      } @else {
+        <h2>Cargando usuario...</h2>
+      }
+    </section>
+
+    <section class="wallet-card">
+      <div>
+        <h2>Wallet blockchain</h2>
+        <p>
+          Conecta MetaMask para firmar contratos, aceptar trabajos y realizar depósitos en blockchain.
+        </p>
+
+        @if (walletAddress) {
+          <div class="wallet-address">
+            <span>Wallet conectada:</span>
+            <strong>{{ walletAddress }}</strong>
+          </div>
+        }
+
+        @if (walletError) {
+          <div class="wallet-error">
+            {{ walletError }}
+          </div>
+        }
+      </div>
+
+      <button (click)="connectWallet()" [disabled]="walletLoading">
+        {{ walletLoading ? 'Conectando...' : 'Conectar MetaMask' }}
+      </button>
+    </section>
+
+    <section class="actions-card">
+      <h2>Acciones rápidas</h2>
+
+      <div class="actions">
+        <a routerLink="/worker-profile">
+          Crear o editar mi perfil profesional
+        </a>
+
+        <a routerLink="/workers">
+          Ver trabajadores disponibles
+        </a>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article>
+        <h3>Clientes</h3>
+        <p>Podrán buscar trabajadores, solicitar presupuestos y depositar fondos en blockchain.</p>
+      </article>
+
+      <article>
+        <h3>Trabajadores</h3>
+        <p>Podrán crear perfil, cotizar proyectos y entregar avances verificables.</p>
+      </article>
+
+      <article>
+        <h3>Smart Contract</h3>
+        <p>El dinero quedará retenido y se liberará por hitos aprobados.</p>
+      </article>
+
+      <article>
+        <h3>Disputas</h3>
+        <p>Un moderador podrá resolver conflictos y decidir pagos parciales.</p>
+      </article>
+    </section>
+  </main>
+</div>

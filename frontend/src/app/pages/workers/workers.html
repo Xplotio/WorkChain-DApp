@@ -1,0 +1,99 @@
+<div class="page">
+  <header>
+    <div>
+      <h1>Trabajadores disponibles</h1>
+      <p>Busca profesionales para solicitarles un presupuesto.</p>
+    </div>
+
+    <a routerLink="/dashboard">Volver al dashboard</a>
+  </header>
+
+  <main>
+    <section class="filters">
+      <label>Filtrar por profesión</label>
+
+      <select
+        name="selectedProfession"
+        [(ngModel)]="selectedProfession"
+        (change)="applyFilter()"
+      >
+        <option value="all">Todas</option>
+        <option value="programmer">Programadores</option>
+        <option value="architect">Arquitectos</option>
+        <option value="graphic_designer">Diseñadores gráficos</option>
+        <option value="lawyer">Abogados</option>
+      </select>
+    </section>
+
+    @if (loading) {
+      <div class="status">
+        Cargando trabajadores...
+      </div>
+    }
+
+    @if (errorMessage) {
+      <div class="error">
+        {{ errorMessage }}
+      </div>
+    }
+
+    @if (!loading && filteredWorkers.length === 0) {
+      <div class="status">
+        No hay trabajadores disponibles para este filtro.
+      </div>
+    }
+
+    <section class="workers-grid">
+      @for (worker of filteredWorkers; track worker.uid) {
+        <article class="worker-card">
+          <div class="top">
+            <div class="avatar">
+              {{ worker.name.charAt(0).toUpperCase() }}
+            </div>
+
+            <div>
+              <h2>{{ worker.name }}</h2>
+              <span>{{ getProfessionLabel(worker.profession) }}</span>
+            </div>
+          </div>
+
+          <h3>{{ worker.title }}</h3>
+
+          <p>{{ worker.description }}</p>
+
+          <div class="skills">
+            @for (skill of worker.skills; track skill) {
+              <span>{{ skill }}</span>
+            }
+          </div>
+
+          <div class="details">
+            <strong>Precio base:</strong>
+            <span>${{ worker.basePrice }}</span>
+          </div>
+
+          @if (worker.walletAddress) {
+            <div class="wallet">
+              <strong>Wallet:</strong>
+              <span>{{ worker.walletAddress }}</span>
+            </div>
+          }
+
+          @if (worker.portfolioUrl) {
+            <a
+              class="portfolio"
+              [href]="worker.portfolioUrl"
+              target="_blank"
+            >
+              Ver portafolio
+            </a>
+          }
+
+          <button>
+            Solicitar presupuesto
+          </button>
+        </article>
+      }
+    </section>
+  </main>
+</div>

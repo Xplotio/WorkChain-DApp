@@ -1,54 +1,10 @@
 # Node modules
-/node_modules
-
-# Compilation output
-/dist
-
-# pnpm deploy output
-/bundle
-
-# Hardhat Build Artifacts
-/artifacts
-
-# Hardhat compilation (v2) support directory
-/cache
-
-# Typechain output
-/types
-
-# Environment files
-.env
-.env.*
-!.env.example
-
-# Hardhat coverage reports
-/coverage
-
-# Gas snapshot files
-/.gas-snapshot
-
-# Snapshot cheatcodes output
-/snapshots
-
-# Dependencies
 node_modules/
 frontend/node_modules/
 
-# Angular
+# Angular cache/build
 frontend/.angular/
 frontend/dist/
-
-# Hardhat
-artifacts/
-cache/
-typechain-types/
-ignition/deployments/
-
-# Environment
-.env
-.env.local
-frontend/.env
-frontend/.env.local
 
 # Logs
 npm-debug.log*

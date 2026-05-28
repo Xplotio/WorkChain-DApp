@@ -1,0 +1,68 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="brand">
+      <div class="brand-icon">W</div>
+      <div>
+        <h1>WorkChain</h1>
+        <p>Crea tu cuenta como cliente, trabajador o moderador.</p>
+      </div>
+    </div>
+
+    <h2>Crear cuenta</h2>
+
+    <form (ngSubmit)="register()">
+      <label>Nombre completo</label>
+      <input
+        type="text"
+        name="name"
+        [(ngModel)]="name"
+        placeholder="Tu nombre"
+      />
+
+      <label>Correo electrónico</label>
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="email"
+        placeholder="correo@email.com"
+      />
+
+      <label>Contraseña</label>
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        placeholder="Mínimo 6 caracteres"
+      />
+
+      <label>Tipo de cuenta</label>
+      <select name="role" [(ngModel)]="role">
+        <option value="client">Cliente</option>
+        <option value="worker">Trabajador</option>
+        <option value="moderator">Moderador</option>
+      </select>
+
+      @if (role === 'worker') {
+        <div class="info">
+          Después podrás configurar tu profesión: programador, arquitecto,
+          diseñador gráfico o abogado.
+        </div>
+      }
+
+      @if (errorMessage) {
+        <div class="error">
+          {{ errorMessage }}
+        </div>
+      }
+
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'Creando cuenta...' : 'Registrarme' }}
+      </button>
+    </form>
+
+    <p class="switch">
+      ¿Ya tienes cuenta?
+      <a routerLink="/login">Iniciar sesión</a>
+    </p>
+  </div>
+</div>

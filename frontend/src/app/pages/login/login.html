@@ -1,0 +1,47 @@
+
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="brand">
+      <div class="brand-icon">W</div>
+      <div>
+        <h1>WorkChain</h1>
+        <p>Contratación freelance con pagos protegidos en blockchain.</p>
+      </div>
+    </div>
+
+    <h2>Iniciar sesión</h2>
+
+    <form (ngSubmit)="login()">
+      <label>Correo electrónico</label>
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="email"
+        placeholder="cliente@email.com"
+      />
+
+      <label>Contraseña</label>
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        placeholder="********"
+      />
+
+      @if (errorMessage) {
+        <div class="error">
+          {{ errorMessage }}
+        </div>
+      }
+
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'Entrando...' : 'Entrar' }}
+      </button>
+    </form>
+
+    <p class="switch">
+      ¿No tienes cuenta?
+      <a routerLink="/register">Crear cuenta</a>
+    </p>
+  </div>
+</div>
