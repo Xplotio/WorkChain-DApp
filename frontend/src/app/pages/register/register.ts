@@ -31,7 +31,7 @@ export class RegisterComponent {
     }
 
     if (this.password.length < 6) {
-      this.errorMessage = 'La contraseña debe tener mínimo 6 caracteres.';
+      this.errorMessage = 'La contrasena debe tener minimo 6 caracteres.';
       return;
     }
 

@@ -1,8 +1,9 @@
 <div class="page">
   <header>
     <div>
+      <span>Marketplace</span>
       <h1>Trabajadores disponibles</h1>
-      <p>Busca profesionales para solicitarles un presupuesto.</p>
+      <p>Busca profesionales y revisa evidencias verificables antes de contratar.</p>
     </div>
 
     <a routerLink="/dashboard">Volver al dashboard</a>
@@ -10,7 +11,7 @@
 
   <main>
     <section class="filters">
-      <label>Filtrar por profesión</label>
+      <label>Filtrar por profesion</label>
 
       <select
         name="selectedProfession"
@@ -20,7 +21,7 @@
         <option value="all">Todas</option>
         <option value="programmer">Programadores</option>
         <option value="architect">Arquitectos</option>
-        <option value="graphic_designer">Diseñadores gráficos</option>
+        <option value="graphic_designer">Disenadores graficos</option>
         <option value="lawyer">Abogados</option>
       </select>
     </section>
@@ -68,25 +69,32 @@
           </div>
 
           <div class="details">
-            <strong>Precio base:</strong>
+            <strong>Precio base</strong>
             <span>${{ worker.basePrice }}</span>
           </div>
 
           @if (worker.walletAddress) {
             <div class="wallet">
-              <strong>Wallet:</strong>
+              <strong>Wallet</strong>
               <span>{{ worker.walletAddress }}</span>
             </div>
           }
 
-          @if (worker.portfolioUrl) {
+          @if (worker.cvUrl) {
             <a
               class="portfolio"
-              [href]="worker.portfolioUrl"
+              [href]="worker.cvUrl"
               target="_blank"
             >
-              Ver portafolio
+              Ver CV / portafolio
             </a>
+          }
+
+          @if (worker.cvHash) {
+            <div class="cv-hash">
+              <strong>Hash verificable del CV</strong>
+              <span>{{ worker.cvHash }}</span>
+            </div>
           }
 
           <button>

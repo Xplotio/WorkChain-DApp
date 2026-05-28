@@ -61,7 +61,7 @@ export class WorkersComponent implements OnInit {
     const labels: Record<Profession, string> = {
       programmer: 'Programador',
       architect: 'Arquitecto',
-      graphic_designer: 'Diseñador gráfico',
+      graphic_designer: 'Disenador grafico',
       lawyer: 'Abogado'
     };
 

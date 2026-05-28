@@ -1,18 +1,23 @@
-
 <div class="auth-page">
+  <div class="auth-visual">
+    <span>Escrow inteligente</span>
+    <strong>Hitos, evidencias y pagos protegidos</strong>
+    <p>Explora el flujo completo de WorkChain con una cuenta admin real en Firebase.</p>
+  </div>
+
   <div class="auth-card">
     <div class="brand">
       <div class="brand-icon">W</div>
       <div>
         <h1>WorkChain</h1>
-        <p>Contratación freelance con pagos protegidos en blockchain.</p>
+        <p>Contratacion freelance con pagos protegidos en blockchain.</p>
       </div>
     </div>
 
-    <h2>Iniciar sesión</h2>
+    <h2>Iniciar sesion</h2>
 
     <form (ngSubmit)="login()">
-      <label>Correo electrónico</label>
+      <label>Correo electronico</label>
       <input
         type="email"
         name="email"
@@ -20,7 +25,7 @@
         placeholder="cliente@email.com"
       />
 
-      <label>Contraseña</label>
+      <label>Contrasena</label>
       <input
         type="password"
         name="password"
@@ -39,9 +44,17 @@
       </button>
     </form>
 
+    <button class="admin-access" type="button" (click)="enterAsAdmin()" [disabled]="loading">
+      {{ loading ? 'Entrando...' : 'Entrar como admin' }}
+    </button>
+
     <p class="switch">
       ¿No tienes cuenta?
       <a routerLink="/register">Crear cuenta</a>
+    </p>
+
+    <p class="switch compact">
+      <a routerLink="/">Volver al marketplace</a>
     </p>
   </div>
 </div>

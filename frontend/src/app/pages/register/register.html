@@ -19,7 +19,7 @@
         placeholder="Tu nombre"
       />
 
-      <label>Correo electrónico</label>
+      <label>Correo electronico</label>
       <input
         type="email"
         name="email"
@@ -27,12 +27,12 @@
         placeholder="correo@email.com"
       />
 
-      <label>Contraseña</label>
+      <label>Contrasena</label>
       <input
         type="password"
         name="password"
         [(ngModel)]="password"
-        placeholder="Mínimo 6 caracteres"
+        placeholder="Minimo 6 caracteres"
       />
 
       <label>Tipo de cuenta</label>
@@ -44,8 +44,8 @@
 
       @if (role === 'worker') {
         <div class="info">
-          Después podrás configurar tu profesión: programador, arquitecto,
-          diseñador gráfico o abogado.
+          Despues podras configurar tu profesion: programador, arquitecto,
+          disenador grafico o abogado.
         </div>
       }
 
@@ -62,7 +62,11 @@
 
     <p class="switch">
       ¿Ya tienes cuenta?
-      <a routerLink="/login">Iniciar sesión</a>
+      <a routerLink="/login">Iniciar sesion</a>
+    </p>
+
+    <p class="switch compact">
+      <a routerLink="/">Volver al marketplace</a>
     </p>
   </div>
 </div>

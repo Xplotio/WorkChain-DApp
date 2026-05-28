@@ -1,37 +1,67 @@
 <div class="dashboard">
   <header>
     <div>
+      <span>Panel interno</span>
       <h1>WorkChain</h1>
-      <p>Panel principal de la plataforma freelance con escrow blockchain.</p>
+      <p>Gestiona tu cuenta, wallet y acciones privadas de la plataforma.</p>
     </div>
 
-    <button (click)="logout()">Cerrar sesión</button>
+    <div class="header-actions">
+      <a routerLink="/">Marketplace</a>
+      <button (click)="logout()">Cerrar sesion</button>
+    </div>
   </header>
 
   <main>
     <section class="welcome-card">
       @if (currentUser$ | async; as user) {
-        <h2>Bienvenido</h2>
-        <p>
-          Sesión iniciada como:
-          <strong>{{ user.email || 'Sin correo' }}</strong>
-        </p>
+        <div>
+          <span class="eyebrow">Sesion activa</span>
+          <h2>Bienvenido</h2>
+          <p>
+            Navegando como
+            <strong>{{ user.email || 'admin@workchain.local' }}</strong>
+          </p>
+        </div>
+
+        @if (isAdmin(user.email)) {
+          <span class="admin-pill">Admin</span>
+        }
       } @else {
-        <h2>Cargando usuario...</h2>
+        <div>
+          <span class="eyebrow">Sesion requerida</span>
+          <h2>Sin sesion activa</h2>
+          <p>Inicia sesion o entra con la cuenta admin para administrar la plataforma.</p>
+        </div>
       }
     </section>
 
     <section class="wallet-card">
       <div>
-        <h2>Wallet blockchain</h2>
+        <span class="eyebrow">Blockchain</span>
+        <h2>Wallet MetaMask</h2>
         <p>
-          Conecta MetaMask para firmar contratos, aceptar trabajos y realizar depósitos en blockchain.
+          Conecta MetaMask para firmar contratos, aceptar trabajos y realizar
+          depositos hacia el smart contract.
         </p>
+
+        @if (!walletChecked && walletLoading) {
+          <div class="wallet-status">
+            Revisando conexion de MetaMask...
+          </div>
+        }
 
         @if (walletAddress) {
           <div class="wallet-address">
-            <span>Wallet conectada:</span>
+            <span>Wallet conectada</span>
             <strong>{{ walletAddress }}</strong>
+            @if (chainId) {
+              <small>Red actual: {{ chainId }}</small>
+            }
+          </div>
+        } @else if (walletChecked && !walletError) {
+          <div class="wallet-status">
+            No hay una wallet conectada todavia.
           </div>
         }
 
@@ -43,16 +73,19 @@
       </div>
 
       <button (click)="connectWallet()" [disabled]="walletLoading">
-        {{ walletLoading ? 'Conectando...' : 'Conectar MetaMask' }}
+        {{ getWalletButtonText() }}
       </button>
     </section>
 
     <section class="actions-card">
-      <h2>Acciones rápidas</h2>
+      <div>
+        <span class="eyebrow">Navegacion</span>
+        <h2>Acciones de cuenta</h2>
+      </div>
 
       <div class="actions">
         <a routerLink="/worker-profile">
-          Crear o editar mi perfil profesional
+          Crear o editar perfil profesional
         </a>
 
         <a routerLink="/workers">
@@ -61,26 +94,46 @@
       </div>
     </section>
 
-    <section class="grid">
-      <article>
-        <h3>Clientes</h3>
-        <p>Podrán buscar trabajadores, solicitar presupuestos y depositar fondos en blockchain.</p>
-      </article>
+    <section class="dashboard-section">
+      <div class="section-title">
+        <span class="eyebrow">Usuarios</span>
+        <h2>Participantes de la plataforma</h2>
+      </div>
 
-      <article>
-        <h3>Trabajadores</h3>
-        <p>Podrán crear perfil, cotizar proyectos y entregar avances verificables.</p>
-      </article>
+      <div class="grid two-columns">
+        <article>
+          <span>01</span>
+          <h3>Clientes</h3>
+          <p>Buscan trabajadores, solicitan presupuestos y depositan fondos en blockchain.</p>
+        </article>
 
-      <article>
-        <h3>Smart Contract</h3>
-        <p>El dinero quedará retenido y se liberará por hitos aprobados.</p>
-      </article>
+        <article>
+          <span>02</span>
+          <h3>Trabajadores</h3>
+          <p>Crean perfil, cotizan proyectos y entregan avances verificables.</p>
+        </article>
+      </div>
+    </section>
 
-      <article>
-        <h3>Disputas</h3>
-        <p>Un moderador podrá resolver conflictos y decidir pagos parciales.</p>
-      </article>
+    <section class="dashboard-section">
+      <div class="section-title">
+        <span class="eyebrow">Contrato</span>
+        <h2>Fondos, hitos y disputas</h2>
+      </div>
+
+      <div class="grid two-columns">
+        <article>
+          <span>03</span>
+          <h3>Smart Contract</h3>
+          <p>Retiene fondos y libera pagos segun los hitos aprobados.</p>
+        </article>
+
+        <article>
+          <span>04</span>
+          <h3>Disputas</h3>
+          <p>Un moderador puede resolver conflictos y definir pagos parciales.</p>
+        </article>
+      </div>
     </section>
   </main>
 </div>

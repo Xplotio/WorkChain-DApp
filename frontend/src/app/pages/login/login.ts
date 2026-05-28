@@ -23,7 +23,7 @@ export class LoginComponent {
     this.errorMessage = '';
 
     if (!this.email || !this.password) {
-      this.errorMessage = 'Ingresa tu correo y contraseña.';
+      this.errorMessage = 'Ingresa tu correo y contrasena.';
       return;
     }
 
@@ -32,7 +32,23 @@ export class LoginComponent {
       await this.authService.login(this.email, this.password);
       await this.router.navigate(['/dashboard']);
     } catch (error) {
-      this.errorMessage = 'Correo o contraseña incorrectos.';
+      this.errorMessage = 'Correo o contrasena incorrectos.';
+      console.error(error);
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  async enterAsAdmin() {
+    this.errorMessage = '';
+
+    try {
+      this.loading = true;
+      await this.authService.loginAsAdmin();
+      await this.router.navigate(['/dashboard']);
+    } catch (error: any) {
+      this.errorMessage =
+        error.message || 'No se pudo entrar como admin.';
       console.error(error);
     } finally {
       this.loading = false;

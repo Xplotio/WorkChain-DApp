@@ -28,12 +28,29 @@ export interface WorkerProfile {
   title: string;
   description: string;
   skills: string[];
-  portfolioUrl: string;
+  cvHash: string;
+  cvFileName: string;
+  cvFileSize: number;
+  cvUrl: string;
   basePrice: number;
   available: boolean;
   createdAt?: any;
   updatedAt?: any;
 }
+
+type WorkerProfileData = Pick<
+  WorkerProfile,
+  | 'profession'
+  | 'title'
+  | 'description'
+  | 'skills'
+  | 'cvHash'
+  | 'cvFileName'
+  | 'cvFileSize'
+  | 'cvUrl'
+  | 'basePrice'
+  | 'available'
+>;
 
 @Injectable({
   providedIn: 'root'
@@ -41,15 +58,7 @@ export interface WorkerProfile {
 export class WorkerService {
   private firebase = inject(FirebaseService);
 
-  async saveMyProfile(profileData: {
-    profession: Profession;
-    title: string;
-    description: string;
-    skills: string[];
-    portfolioUrl: string;
-    basePrice: number;
-    available: boolean;
-  }) {
+  async saveMyProfile(profileData: WorkerProfileData) {
     const currentUser = this.firebase.auth.currentUser;
 
     if (!currentUser) {
@@ -75,14 +84,17 @@ export class WorkerService {
 
     const profile: WorkerProfile = {
       uid: currentUser.uid,
-      name: userData['name'] || '',
+      name: userData['name'] || currentUser.displayName || '',
       email: userData['email'] || currentUser.email || '',
       walletAddress: userData['walletAddress'] || '',
       profession: profileData.profession,
       title: profileData.title,
       description: profileData.description,
       skills: profileData.skills,
-      portfolioUrl: profileData.portfolioUrl,
+      cvHash: profileData.cvHash,
+      cvFileName: profileData.cvFileName,
+      cvFileSize: profileData.cvFileSize,
+      cvUrl: profileData.cvUrl,
       basePrice: profileData.basePrice,
       available: profileData.available,
       createdAt: existingProfile.exists()
@@ -120,9 +132,7 @@ export class WorkerService {
 
   async getAvailableWorkers(): Promise<WorkerProfile[]> {
     const profilesRef = collection(this.firebase.firestore, 'worker_profiles');
-
     const q = query(profilesRef, where('available', '==', true));
-
     const snapshot = await getDocs(q);
 
     return snapshot.docs.map((docItem) => docItem.data() as WorkerProfile);

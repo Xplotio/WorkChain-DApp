@@ -1,8 +1,9 @@
 <div class="page">
   <header>
     <div>
+      <span>Perfil publico</span>
       <h1>Perfil profesional</h1>
-      <p>Configura tu información para que los clientes puedan contratarte.</p>
+      <p>Configura tu informacion para que los clientes puedan contratarte.</p>
     </div>
 
     <a routerLink="/dashboard">Volver al dashboard</a>
@@ -10,18 +11,18 @@
 
   <main>
     <section class="card">
-      <h2>Información del trabajador</h2>
+      <h2>Informacion del trabajador</h2>
 
       <form (ngSubmit)="saveProfile()">
-        <label>Profesión</label>
+        <label>Profesion</label>
         <select name="profession" [(ngModel)]="profession">
           <option value="programmer">Programador</option>
           <option value="architect">Arquitecto</option>
-          <option value="graphic_designer">Diseñador gráfico</option>
+          <option value="graphic_designer">Disenador grafico</option>
           <option value="lawyer">Abogado</option>
         </select>
 
-        <label>Título profesional</label>
+        <label>Titulo profesional</label>
         <input
           type="text"
           name="title"
@@ -29,7 +30,7 @@
           placeholder="Ej. Desarrollador web full stack"
         />
 
-        <label>Descripción</label>
+        <label>Descripcion</label>
         <textarea
           name="description"
           [(ngModel)]="description"
@@ -45,11 +46,27 @@
           placeholder="Angular, Firebase, Solidity, UI/UX"
         />
 
-        <label>Portafolio o enlace de referencia</label>
+        <label>CV en PDF</label>
+        <input
+          type="file"
+          name="cvFile"
+          accept="application/pdf"
+          (change)="onCvSelected($event)"
+        />
+
+        @if (cvFileName) {
+          <div class="cv-summary">
+            <strong>{{ cvFileName }}</strong>
+            <span>{{ formatFileSize(cvFileSize) }}</span>
+            <small>SHA-256: {{ cvHash }}</small>
+          </div>
+        }
+
+        <label>Enlace opcional de CV o portafolio</label>
         <input
           type="text"
-          name="portfolioUrl"
-          [(ngModel)]="portfolioUrl"
+          name="cvUrl"
+          [(ngModel)]="cvUrl"
           placeholder="https://..."
         />
 

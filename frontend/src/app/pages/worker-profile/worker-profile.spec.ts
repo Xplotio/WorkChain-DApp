@@ -1,17 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
-import { WorkerProfile } from './worker-profile';
+import { WorkerProfileComponent } from './worker-profile';
 
 describe('WorkerProfile', () => {
-  let component: WorkerProfile;
-  let fixture: ComponentFixture<WorkerProfile>;
+  let component: WorkerProfileComponent;
+  let fixture: ComponentFixture<WorkerProfileComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WorkerProfile],
+      imports: [WorkerProfileComponent],
+      providers: [provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(WorkerProfile);
+    fixture = TestBed.createComponent(WorkerProfileComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

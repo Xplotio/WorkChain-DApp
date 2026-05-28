@@ -11,19 +11,21 @@ import {
 
 import {
   doc,
-  setDoc,
-  serverTimestamp
+  serverTimestamp,
+  setDoc
 } from 'firebase/firestore';
 
 import { FirebaseService } from './firebase.service';
 
-export type UserRole = 'client' | 'worker' | 'moderator';
+export type UserRole = 'client' | 'worker' | 'moderator' | 'admin';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private firebase = inject(FirebaseService);
+  private readonly adminEmail = 'admin@workchain.local';
+  private readonly adminPassword = 'Admin123456';
 
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
@@ -46,16 +48,12 @@ export class AuthService {
       password
     );
 
-    const uid = credential.user.uid;
-
-    await setDoc(doc(this.firebase.firestore, 'users', uid), {
-      uid,
+    await this.saveUserDocument(
+      credential.user.uid,
       name,
       email,
-      role,
-      walletAddress: '',
-      createdAt: serverTimestamp()
-    });
+      role
+    );
 
     return credential.user;
   }
@@ -70,7 +68,68 @@ export class AuthService {
     return credential.user;
   }
 
+  async loginAsAdmin() {
+    try {
+      const credential = await signInWithEmailAndPassword(
+        this.firebase.auth,
+        this.adminEmail,
+        this.adminPassword
+      );
+
+      await this.saveUserDocument(
+        credential.user.uid,
+        'Admin WorkChain',
+        this.adminEmail,
+        'admin'
+      );
+
+      return credential.user;
+    } catch (error: any) {
+      const canCreateAdmin =
+        error.code === 'auth/user-not-found' ||
+        error.code === 'auth/invalid-credential';
+
+      if (!canCreateAdmin) {
+        throw error;
+      }
+
+      const credential = await createUserWithEmailAndPassword(
+        this.firebase.auth,
+        this.adminEmail,
+        this.adminPassword
+      );
+
+      await this.saveUserDocument(
+        credential.user.uid,
+        'Admin WorkChain',
+        this.adminEmail,
+        'admin'
+      );
+
+      return credential.user;
+    }
+  }
+
   async logout() {
     await signOut(this.firebase.auth);
+  }
+
+  private async saveUserDocument(
+    uid: string,
+    name: string,
+    email: string,
+    role: UserRole
+  ) {
+    await setDoc(
+      doc(this.firebase.firestore, 'users', uid),
+      {
+        uid,
+        name,
+        email,
+        role,
+        updatedAt: serverTimestamp()
+      },
+      { merge: true }
+    );
   }
 }
